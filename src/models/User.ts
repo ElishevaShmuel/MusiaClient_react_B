@@ -4,12 +4,12 @@ import { Currency } from "./Currency.ts";
 export type User = {
     Id: number;
     Name: string;
-    Email?: string; 
-    Password: number;
-    PasswordHash?: string[];
+    Email: string; 
+    Password: string;
+    PasswordHash?: string;
     ProfilePicturePath: string;
     Role: string;
     Files: MusicFile[]; 
-    Currency: Currency;
+    Currency?: Currency;
     IsIn: boolean;
 };

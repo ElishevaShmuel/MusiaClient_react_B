@@ -1,14 +1,13 @@
-import { Link } from "react-router-dom";
-import { AppBar, Box, Toolbar, Button, Typography, Container } from "@mui/material";
-
+import { Link, Route } from "react-router-dom";
+import { AppBar, Box, Toolbar, Typography, Container, Button, ButtonBase } from "@mui/material";
+import Avatar from "../login/Avatar";
+// import { Button } from "./tols/Botton";
 
 const NavBar = () => {
-
   return (
-    <AppBar position="fixed" sx={{ top: 0, left: 0, backgroundColor: "#77A672", zIndex: 1000 }}>
+    <AppBar position="fixed" sx={{ top: 0, left: 0, backgroundColor: "rgba(74, 51, 77, 0.66)", zIndex: 1000, height: "75px", padding: "8px" }}>
       <Container maxWidth="lg">
         <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        
           <Typography
             variant="h6"
             sx={{
@@ -18,63 +17,64 @@ const NavBar = () => {
               color: "white",
             }}
           >
-            
+            music
           </Typography>
-          
-    
-          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-            {/* <Register />
-            <Login />
-            <LetterAvatars /> */}
-          </Box>
-          
           <Box sx={{ display: "flex", gap: 2 }}>
-            <Button
+            <ButtonBase
               component={Link}
               to="/"
               sx={{
                 color: "white",
-                ":hover": { backgroundColor: "#5E8B5C", color: "white" },
-                textTransform: "none",
+                ":hover": { color: "rgba(108, 61, 220, 0.73)" },
               }}
             >
-              Home
-            </Button>
-            <Button
+              דף הבית
+            </ButtonBase>
+            <ButtonBase
               component={Link}
               to="/about"
               sx={{
                 color: "white",
-                ":hover": { backgroundColor: "#5E8B5C", color: "white" },
-                textTransform: "none",
+                ":hover": { color: "rgba(108, 61, 220, 0.73)" },
               }}
             >
-              About
-            </Button>
-            {/* <Button
+              אודות
+            </ButtonBase>
+            <ButtonBase
               component={Link}
-              to="/RecipesList"
+              to="/conect"
               sx={{
                 color: "white",
-                ":hover": { backgroundColor: "#5E8B5C", color: "white" },
-                textTransform: "none",
+                ":hover": { color: "rgba(108, 61, 220, 0.73)" },
               }}
+
             >
-              Recipes
-            </Button> */}
-            {/* {userState.user?.isConected && ( */}
-              {/* <Button
-                component={Link}
-                to="/AddRecipe"
-                sx={{
-                  color: "white",
-                  ":hover": { backgroundColor: "#5E8B5C", color: "white" },
-                  textTransform: "none",
-                }}
-              >
-                Add Recipe
-              </Button> */}
-             </Box>
+              צור קשר
+            </ButtonBase>
+            <ButtonBase
+              component={Link}
+              to="/register"
+              sx={{
+                color: "white",
+                ":hover": { color: "rgba(108, 61, 220, 0.73)" },
+              }}>
+              הרשמה
+            </ButtonBase>
+            <ButtonBase
+              component={Link}
+              to="/login"
+              sx={{
+                color: "white",
+                ":hover": { color: "rgba(108, 61, 220, 0.73)" },
+              }}>
+              כניסה
+            </ButtonBase>
+            <ButtonBase
+              component={Link}
+              to="/profile">           
+              <Avatar />
+            </ButtonBase>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>

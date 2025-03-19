@@ -1,11 +1,11 @@
 
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { User } from '../models/user';
+import { User } from '../models/User';
 
-export const Register = createAsyncThunk('register', async (_, thunkAPI) => {
+export const RegisterUser = createAsyncThunk('user/register', async (user:User, thunkAPI) => {
     try {
-        const response = await axios.get("url")
+        const response = await axios.post("url",user)
         console.log("register");
         console.log(response.data);
 
@@ -18,7 +18,7 @@ export const Register = createAsyncThunk('register', async (_, thunkAPI) => {
     }
 })
 
-export const Login = createAsyncThunk('login', async (user: User, thunkAPI) => {
+export const LoginUser = createAsyncThunk('login', async (user: User, thunkAPI) => {
     try {
         const response = await axios.post(`url`, user)
         console.log("login");
@@ -43,26 +43,26 @@ export const UserSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(Register.pending, (state) => {
+            .addCase(RegisterUser.pending, (state) => {
                 state.loading = true;
                 state.error = ''
                 console.log("111");
 
             })
-            .addCase(Register.fulfilled, (state, action: PayloadAction<User>) => {
+            .addCase(RegisterUser.fulfilled, (state, action: PayloadAction<User>) => {
                 state.user = action.payload
                 console.log("222");
             })
-            .addCase(Register.rejected, (state, action) => {
+            .addCase(RegisterUser.rejected, (state, action) => {
                 state.error = action.error.message || 'Fail To Fetch user'
                 console.log("333");
 
             })
-            .addCase(Login.pending, (state) => {
+            .addCase(LoginUser.pending, (state) => {
                 state.loading = true;
                 state.error = ''
             })
-            .addCase(Login.fulfilled, (state, action: PayloadAction<User>) => {
+            .addCase(LoginUser.fulfilled, (state, action: PayloadAction<User>) => {
                 state.loading = false;
                 state.error = ''
                 if (action.payload) { // בדוק אם payload הוא לא null
@@ -70,7 +70,7 @@ export const UserSlice = createSlice({
                     state.user.IsIn=true;  // הוספתי כדי שהמשתמש יהיה מחובר              
                 }
             })
-            .addCase(Login.rejected, (state, action) => {
+            .addCase(LoginUser.rejected, (state, action) => {
                 state.error = action.error.message || 'Fail To Fetch Recipes'
             })
     }

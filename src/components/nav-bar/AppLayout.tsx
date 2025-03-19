@@ -8,9 +8,7 @@ const AppLayout = () => {
             <div style={{ position: 'relative' }}>
     <NavBar />
             </div>
-            _______________________________________
             <Outlet />
-            ************
         </>
     )
 }
