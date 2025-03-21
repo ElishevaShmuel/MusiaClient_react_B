@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button } from '../nav-bar/tols/Botton';
 import Upload from '../musicFiles/Upload';
+import { div } from 'framer-motion/client';
+import FileCard from '../musicFiles/FileCard';
 
 const Profile: React.FC = () => {
    const [onclicked,SetOnclicked]=useState(false)
@@ -8,6 +10,8 @@ const Profile: React.FC = () => {
         SetOnclicked(true)
     };
     return (
+        <>
+      
         <div style={{ padding: '20px', textAlign: 'center' }}>
             <h1>Profile Page</h1>
             <p>Welcome to your profile!</p>
@@ -25,6 +29,10 @@ const Profile: React.FC = () => {
             )} 
             </div>
         </div>
+        <div>
+            <FileCard></FileCard>
+        </div>
+        </>
     );
 };
 
