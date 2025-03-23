@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Button } from '../nav-bar/tols/Botton';
 import Upload from '../musicFiles/Upload';
-import { div } from 'framer-motion/client';
-import FileCard from '../musicFiles/FileCard';
+
+import UserFilesList from '../musicFiles/UserFilesList';
 
 const Profile: React.FC = () => {
    const [onclicked,SetOnclicked]=useState(false)
@@ -30,7 +29,7 @@ const Profile: React.FC = () => {
             </div>
         </div>
         <div>
-            <FileCard></FileCard>
+            <UserFilesList></UserFilesList>
         </div>
         </>
     );

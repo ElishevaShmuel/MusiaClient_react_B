@@ -4,8 +4,9 @@ import About from "./components/nav-bar/About"
 import AppLayout from "./components/nav-bar/AppLayout"
 import Register from "./components/login/Register"
 import Login from "./components/login/Login"
-import Contact from "./components/nav-bar/contact"
+import Contact from "./components/nav-bar/Contact"
 import Profile from "./components/login/Profile"
+import AllFilesList from "./components/musicFiles/AllFilesList"
 
 export const myRouter = createBrowserRouter([
     {
@@ -18,7 +19,8 @@ export const myRouter = createBrowserRouter([
             { path: '/register', element: <Register /> },
             { path: '/login', element: <Login /> },
             { path: '/conect', element: <Contact /> },
-            { path: '/profile', element: <Profile /> }
+            { path: '/profile', element: <Profile /> },
+            { path: '/AllFilesList', element: <AllFilesList /> }
 
 
         ]

@@ -1,42 +1,55 @@
-import React from 'react';
-import { Card, CardContent, CardMedia, Typography, IconButton, Box } from '@mui/material';
+import { Card, CardContent, Typography, IconButton, Box } from '@mui/material';
 import { PlayArrow, Download } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import { MusicFile } from '../../models/MusicFile';
+import { User } from '../../models/User';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
 
-const SongCard = ( song :any) => {
-  return (
+const FileCard = ({ song, IsMine ,user }: { song: MusicFile , IsMine: boolean ,user:User }) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const Down=()=>{
+    if((user.Currency?.sum ?? 0) < song.Cost)
+      alert("יקר מידי!! שטף אותנן בתכנך ותחזור אלי😜")
+    else
+      dispatch()
+  }
+
+
+  return (<>
     <motion.div
-      whileHover={{ scale: 1.05 }}
-      style={{ marginBottom: '16px' }}
+      whileHover={{ scale: 1.02 }}
+      style={{ marginBottom: '8px' }}
     >
-      <Card sx={{ display: 'flex', backgroundColor: '#1e1e1e', color: '#fff' }}>
-        <CardMedia
-          component="img"
-          sx={{ width: 151 }}
-          image={song.cover}
-          alt={song.title}
-        />
-        <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-          <CardContent sx={{ flex: '1 0 auto' }}>
-            <Typography component="div" variant="h6">
-              {song.title}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary" component="div">
-              {song.artist}
-            </Typography>
-          </CardContent>
-          <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-            <IconButton aria-label="play/pause">
-              <PlayArrow sx={{ height: 38, width: 38, color: '#fff' }} />
-            </IconButton>
-            <IconButton aria-label="download">
-              <Download sx={{ height: 38, width: 38, color: '#fff' }} />
-            </IconButton>
-          </Box>
+      <Card sx={{
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: '#1e1e1e',
+        color: '#fff',
+        height: '60px',
+        padding: '0 16px',
+      }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton aria-label="play" sx={{ color: '#fff' }}>
+            <PlayArrow />
+          </IconButton>
+         {IsMine && <IconButton aria-label="download" sx={{ color: '#fff' }}>
+            <Download onClick={()=>Down}/>
+          </IconButton>}
         </Box>
+        <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', padding: '8px' }}>
+          <Typography component="div" variant="subtitle1">
+            {song.FileName}//
+          </Typography>
+          <Typography variant="subtitle2" color="text.secondary" component="div">
+            {song.Cost}///
+          </Typography>
+        </CardContent>
       </Card>
     </motion.div>
+  </>
   );
 };
 
-export default SongCard;
+export default FileCard;

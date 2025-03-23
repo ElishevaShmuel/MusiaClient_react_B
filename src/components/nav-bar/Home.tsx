@@ -3,6 +3,7 @@ import { Button, Input, Card, CardContent } from "../nav-bar/tols/Botton";
 
 import { motion } from "framer-motion";
 import { Play, Music, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 // import { Button, Card, CardContent, Input } from "@mui/material";
 
 export default function HomePage() {
@@ -10,7 +11,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center p-10"
-   >
+    >
       <motion.h1
         className="text-5xl font-bold mb-6"
         initial={{ opacity: 0, y: -20 }}
@@ -47,7 +48,7 @@ export default function HomePage() {
             </CardContent>
           </Card>
         </div>
-        <div style={{  width: "20%" }}>
+        <div style={{ width: "20%" }}>
 
           <Card className="bg-gray-800 p-6 text-center">
             <Play size={48} className="text-green-400 mx-auto mb-4" />
@@ -70,8 +71,13 @@ export default function HomePage() {
       </div>
 
 
-      <Button className="mt-10 bg-purple-500 hover:bg-purple-600 text-lg px-6 py-3 rounded-xl shadow-lg">
-        הצטרפו עכשיו
+      <Button 
+        className="bg-purple-500 hover:bg-purple-600 text-lg px-6 py-3 rounded-xl shadow-lg"
+        style={{ marginTop: "10px" }}
+      >
+        <Link to="/AllFilesList" className="block text-center text-white">
+          לכל השירים
+        </Link>
       </Button>
     </div>
   );

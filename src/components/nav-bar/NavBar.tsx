@@ -1,7 +1,6 @@
-import { Link, Route } from "react-router-dom";
-import { AppBar, Box, Toolbar, Typography, Container, Button, ButtonBase } from "@mui/material";
+import { Link } from "react-router-dom";
+import { AppBar, Box, Toolbar, Typography, Container, ButtonBase } from "@mui/material";
 import Avatar from "../login/Avatar";
-// import { Button } from "./tols/Botton";
 
 const NavBar = () => {
   return (
