@@ -5,15 +5,16 @@ import { MusicFile } from '../../models/MusicFile';
 import { User } from '../../models/User';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
+import { DownloadFile } from '../../services/FilesFetch';
 
 const FileCard = ({ song, IsMine ,user }: { song: MusicFile , IsMine: boolean ,user:User }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const Down=()=>{
     if((user.Currency?.sum ?? 0) < song.Cost)
-      alert("יקר מידי!! שטף אותנן בתכנך ותחזור אלי😜")
+      alert("...יקר מידי!! שטף אותנן בתכנך ותחזור אלי😜")
     else
-      dispatch()
+    dispatch(DownloadFile(song.Id.toString()));
   }
 
 

@@ -3,10 +3,14 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { CloudUploadIcon } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
+import { UploadFile } from '../../services/FilesFetch';
 
 const Upload: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [message, setMessage] = useState<string>('');
+    const dispatch = useDispatch<AppDispatch>();
 
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
@@ -32,7 +36,7 @@ const Upload: React.FC = () => {
             setMessage('אנא בחר קובץ להעלאה.');
             return;
         }
-        // כאן ניתן להוסיף את הלוגיקה להעלאת הקובץ לשרת
+        dispatch(UploadFile(file))
         setMessage(`הקובץ "${file.name}" הועלה בהצלחה!`);
         setFile(null);
     };
