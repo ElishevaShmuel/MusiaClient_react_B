@@ -2,12 +2,18 @@ import React, { useState } from 'react';
 import Upload from '../musicFiles/Upload';
 
 import UserFilesList from '../musicFiles/UserFilesList';
+import { useSelector } from 'react-redux';
+import { User } from '../../models/User';
 
 const Profile: React.FC = () => {
+    const user = useSelector((state:any) => state.user.user) as User;
+    console.log(user);
+    
    const [onclicked,SetOnclicked]=useState(false)
     const onclick = () => {
         SetOnclicked(true)
     };
+    console.log("Profile component rendered")
     return (
         <>
       
@@ -16,8 +22,9 @@ const Profile: React.FC = () => {
             <p>Welcome to your profile!</p>
             <div>
                 <h2>Your Details</h2>
-                <p>Name: John Doe</p>
-                <p>Email: john.doe@example.com</p>
+                <p>Name: {user.name}</p>
+                <p>Email: {user.email}</p>
+                <p>MyCredits: {user.currency}</p>
             </div>
             <div>
            {(!onclicked && <button onClick={onclick}>

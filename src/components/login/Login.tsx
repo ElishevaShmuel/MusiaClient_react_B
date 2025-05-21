@@ -1,31 +1,28 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { RegisterUser } from '../../services/userFetch';
+import { LoginUser, RegisterUser } from '../../services/userFetch';
 import { User } from '../../models/User';
 import { TextField, Button, Box, Typography, Container, Paper } from '@mui/material';
 
-const Register = () => {
+const Login = () => {
   const dispatch = useDispatch<AppDispatch>();
-
-  const [formData, setFormData] = useState<User>({
-    Id: 0,
-    Name: '',
-    Email: '',
-    Password: '',
-    ProfilePicturePath: '',
-    Role: '',
-    Files: [],
-    IsIn: false,
-  });
-
+  const [formData, setFormData] = useState<{
+    email: string;
+    password: string;
+}>({
+    email: '',
+    password: '',
+});
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(RegisterUser(formData));
+    dispatch(LoginUser(formData));
+
+
   };
 
   return (
@@ -42,9 +39,9 @@ const Register = () => {
             fullWidth
             id="email"
             label="אימייל"
-            name="Email"
+            name="email"
             autoComplete="email"
-            value={formData.Email}
+            value={formData.email}
             onChange={handleChange}
             InputProps={{
               style: { color: 'white' },
@@ -70,12 +67,12 @@ const Register = () => {
             variant="outlined"
             margin="normal"
             fullWidth
-            name="Password"
+            name="password"
             label="סיסמה"
             type="password"
             id="password"
             autoComplete="current-password"
-            value={formData.Password}
+            value={formData.password}
             onChange={handleChange}
             InputProps={{
               style: { color: 'white' },
@@ -119,4 +116,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

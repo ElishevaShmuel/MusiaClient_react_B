@@ -3,15 +3,18 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { CloudUploadIcon } from 'lucide-react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { UploadFile } from '../../services/FilesFetch';
+import { MusicFilesSlice, UploadFile } from '../../services/FilesFetch';
+import { MusicFile } from '../../models/MusicFile';
+import { User } from '../../models/User';
 
 const Upload: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [message, setMessage] = useState<string>('');
     const dispatch = useDispatch<AppDispatch>();
-
+    const user = useSelector((state:any) => state.user.user) as User;
+    let count=0 ;
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
         clipPath: 'inset(50%)',
@@ -30,17 +33,44 @@ const Upload: React.FC = () => {
         }
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    // const handleSubmit = (event: React.FormEvent) => {
+    //     event.preventDefault();
+    //     if (!file) {
+    //         setMessage('אנא בחר קובץ להעלאה.');
+    //         return;
+    //     }
+    //     if(file.type !== "audio/mpeg"){
+    //         setMessage("הקובץ לא תואם לפורמט mp3");
+    //         return;
+    //     }
+    //     let f={Id:count++,FileName:file.name, MimeType:file.type, Size:file.size, FilePath:"", UserId:user.id.toString(),Cost:10} as MusicFile;
+    //     dispatch(UploadFile(f))
+    //    // setMessage(`הקובץ "${file.name}" הועלה בהצלחה!`);
+    //     setFile(null);
+    // };
+
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (!file) {
             setMessage('אנא בחר קובץ להעלאה.');
             return;
         }
-        dispatch(UploadFile(file))
-        setMessage(`הקובץ "${file.name}" הועלה בהצלחה!`);
-        setFile(null);
+        if(file.type !== "audio/mpeg"){
+            setMessage("הקובץ לא תואם לפורמט mp3");
+            return;
+        }
+    
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            if (event.target && event.target.result) {
+                const fileData = event.target.result as ArrayBuffer;
+                let f = {Id:count++,FileName:file.name, MimeType:file.type, Size:file.size, FilePath:"", UserId:user.id,Cost:10} as MusicFile;
+                dispatch(UploadFile({ file: fileData, metadata: f }));
+                setFile(null);
+            }
+        };
+        reader.readAsArrayBuffer(file); // קריאת תוכן הקובץ
     };
-
     return (
         <div className="upload-container">
             <h2 className="upload-title">העלה שיר</h2>
@@ -68,7 +98,7 @@ const Upload: React.FC = () => {
                     העלה
                 </button>
             </form>
-            {message && <p className="upload-message">{message}</p>}
+            {<p className="upload-message">{message}</p>}
         </div>
     );
 };

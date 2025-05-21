@@ -6,6 +6,6 @@ export type MusicFile = {
     MimeType: string;
     Size: number;
     FilePath: string;
-    UserId: string;
+    UserId: number;
     Cost: number;
 };

@@ -3,10 +3,10 @@ import Home from "./components/nav-bar/Home"
 import About from "./components/nav-bar/About"
 import AppLayout from "./components/nav-bar/AppLayout"
 import Register from "./components/login/Register"
-import Login from "./components/login/Login"
 import Contact from "./components/nav-bar/Contact"
 import Profile from "./components/login/Profile"
 import AllFilesList from "./components/musicFiles/AllFilesList"
+import Login from "./components/login/Login"
 
 export const myRouter = createBrowserRouter([
     {
