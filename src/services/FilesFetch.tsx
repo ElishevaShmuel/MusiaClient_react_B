@@ -67,6 +67,7 @@ export const saveOnServer = async (file: MusicFile) => {
     }
 
     try {
+        console.log("Sending to server:", JSON.stringify(file, null, 2));
         const response = await axios.post(
             "https://localhost:7264/api/AudioFile/save",
             file,
@@ -84,28 +85,71 @@ export const saveOnServer = async (file: MusicFile) => {
             console.error("Error saving collage:", response);
         }
     } catch (error: any) {
-        console.error("Error saving collage:", error.response?.data?.message || error.message);
+        console.error("Error saving collage:", error.response || error.message);
     }
 };
-
-export const DownloadFile = createAsyncThunk('AudioFile/Download/:fileName', async (fileKey: string, thunkAPI) => {
-    try {
-        const response = await axios.get(`https://localhost:7264/api/AudioFile/Download/${fileKey}`, {
-            params: { fileKey },
+export const DownloadFile = createAsyncThunk(
+    'AudioFile/Download/:fileName',
+    async (metadata: MusicFile, thunkAPI) => {
+      try {
+        if (!metadata?.fileName) {
+          return thunkAPI.rejectWithValue({ message: "שם הקובץ לא סופק." });
+        }
+  
+        // שליפת URL זמני מהשרת
+        const response = await axios.get(`https://localhost:7264/api/AudioFile/Download`, {
+          params: { fileName: metadata.fileName }
         });
-
+  
         const presignedUrl = response.data.url;
-        window.location.href = presignedUrl; // מפנה ישירות ל-URL להורדת הקובץ
-    } catch (error) {
+  
+        const link = document.createElement("a");
+        link.href = presignedUrl;
+        link.setAttribute("download", metadata.fileName || "audio.mp3"); // השם שיופיע בקובץ
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link); // ניקוי
+  
+      } catch (error: any) {
         console.error('שגיאה בהורדה:', error);
-        return thunkAPI.rejectWithValue(error);
+        return thunkAPI.rejectWithValue({
+          message: error.message,
+          status: error.response?.status,
+          errors: error.response?.data?.errors
+        });
+      }
     }
-});
+  );
+  
 
+  export const PlayFile = createAsyncThunk(
+    'AudioFile/Play/:fileName',
+    async (metadata: MusicFile, thunkAPI) => {
+      try {
+        const response = await axios.get(`https://localhost:7264/api/AudioFile/Download`, {
+          params: { fileName: metadata.fileName }
+        });
+  
+        const presignedUrl = response.data.url;
+  
+        // יצירת אובייקט שמע והשמעה
+        const audio = new Audio(presignedUrl);
+        audio.play();
+  
+      } catch (error: any) {
+        return thunkAPI.rejectWithValue({
+          message: error.message,
+          status: error.response?.status,
+          errors: error.response?.data?.errors
+        });
+      }
+    }
+  );
+  
 export const MusicFilesSlice = createSlice({
-    name: 'MusicFiles',
+    name: 'musicFiles',
     initialState: {
-        MusicFiles: [] as MusicFile[],
+        musicFiles: [] as MusicFile[],
         loading: false,
         error: ' '
     },
@@ -118,7 +162,7 @@ export const MusicFilesSlice = createSlice({
                 console.log("111");
             })
             .addCase(GetFiles.fulfilled, (state, action: PayloadAction<MusicFile[]>) => {
-                state.MusicFiles = action.payload;
+                state.musicFiles = action.payload;
                 console.log("222");
             })
             .addCase(GetFiles.rejected, (state, action) => {
@@ -130,6 +174,7 @@ export const MusicFilesSlice = createSlice({
                 state.error = '';
             })
             .addCase(GetFilesByUserId.fulfilled, (state, action: PayloadAction<MusicFile[]>) => {
+                state.musicFiles = action.payload;
                 state.loading = false;
                 state.error = '';
             })

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { CloudUploadIcon } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { MusicFilesSlice, UploadFile } from '../../services/FilesFetch';
+import { GetFiles, MusicFilesSlice, UploadFile } from '../../services/FilesFetch';
 import { MusicFile } from '../../models/MusicFile';
 import { User } from '../../models/User';
 
@@ -66,6 +66,7 @@ const Upload: React.FC = () => {
                 const fileData = event.target.result as ArrayBuffer;
                 let f = {Id:count++,FileName:file.name, MimeType:file.type, Size:file.size, FilePath:"", UserId:user.id,Cost:10} as MusicFile;
                 dispatch(UploadFile({ file: fileData, metadata: f }));
+                dispatch(GetFiles());
                 setFile(null);
             }
         };
