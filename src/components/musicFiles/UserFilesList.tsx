@@ -5,9 +5,11 @@ import FileCard from './FileCard';
 import { Container } from '@mui/material';
 
 const UserFilesList = ( ) => {
-    const user = useSelector((state:any) => state.user);
-    const songs=user.files || []
+    const user = useSelector((state:any) => state.user.user);
+    const songs=user.files || [];
 
+    console.log(songs);
+    
 
     return(
          <Container sx={{ paddingTop: '16px' }}>

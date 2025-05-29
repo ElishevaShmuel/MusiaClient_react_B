@@ -5,6 +5,7 @@ import FileCard from './FileCard';
 import { Container, TextField } from '@mui/material';
 import { GetFiles } from '../../services/FilesFetch';
 import { AppDispatch } from '../../store/store';
+import { fetchCurrency } from '../../services/fetchCurrency';
 
 const AllFilesList = () => {
     const songs = useSelector((state: any) => state.musicFiles.musicFiles);
@@ -12,14 +13,16 @@ const AllFilesList = () => {
 
     const dispatch = useDispatch<AppDispatch>();
 
+    const user = useSelector((state: any) => state.user.user) || {};
+    const [searchTerm, setSearchTerm] = useState('');
+
     useEffect(() => {
         dispatch(GetFiles());
+        dispatch(fetchCurrency(user.id));
     }, [dispatch]);
 
     console.log(songs);
 
-    const user = useSelector((state: any) => state.user) || {};
-    const [searchTerm, setSearchTerm] = useState('');
 
     const filteredSongs = songs.filter((song: MusicFile) => {
         console.log(song.fileName);
@@ -39,7 +42,7 @@ const AllFilesList = () => {
                 sx={{ input: { color: '#ffffff' }, label: { color: '#cccccc' }, '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#cccccc' } } }}
             />
             {filteredSongs.map((song: MusicFile) => (
-                <FileCard key={song.Id} song={song} IsMine={false} user={user} />
+                <FileCard key={song.id} song={song} IsMine={false} user={user} />
             ))}
         </Container>
     );

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import { RegisterUser } from '../../services/userFetch';
-import { User } from '../../models/User';
 import { TextField, Button, Box, Typography, Container, Paper, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 
@@ -141,7 +140,7 @@ const Register = () => {
                 id="role"
                 name="role"
                 value={formData.role}
-                onChange={handleChange}
+                onChange={()=>handleChange}
                 sx={{
                   color: 'white',
                   '& .MuiOutlinedInput-notchedOutline': {

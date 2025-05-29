@@ -1,12 +1,12 @@
 
 
 export type MusicFile = {
-  Id: number;
-  FileName: string;
-  MimeType: string;
-    Size: number;
-    FilePath: string;
-    UserId: number;
-    Cost: number;
+  id: number;
+  fileName: string;
+  mimeType: string;
+    size: number;
+    filePath: string;
+    userId: number;
+    cost: number;
 };
 

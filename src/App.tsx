@@ -1,5 +1,5 @@
 
-import { BrowserRouter, RouterProvider } from 'react-router-dom'
+import {  RouterProvider } from 'react-router-dom'
 import './App.css'
 import { myRouter } from './Router'
 import Store from './store/store'

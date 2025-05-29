@@ -5,9 +5,10 @@ import { useState } from 'react';
 import { CloudUploadIcon } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { GetFiles, MusicFilesSlice, UploadFile } from '../../services/FilesFetch';
+import { GetFiles, UploadFile } from '../../services/FilesFetch';
 import { MusicFile } from '../../models/MusicFile';
 import { User } from '../../models/User';
+import { addCurrency } from '../../services/fetchCurrency';
 
 const Upload: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -15,6 +16,7 @@ const Upload: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const user = useSelector((state:any) => state.user.user) as User;
     let count=0 ;
+  
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
         clipPath: 'inset(50%)',
@@ -33,21 +35,6 @@ const Upload: React.FC = () => {
         }
     };
 
-    // const handleSubmit = (event: React.FormEvent) => {
-    //     event.preventDefault();
-    //     if (!file) {
-    //         setMessage('אנא בחר קובץ להעלאה.');
-    //         return;
-    //     }
-    //     if(file.type !== "audio/mpeg"){
-    //         setMessage("הקובץ לא תואם לפורמט mp3");
-    //         return;
-    //     }
-    //     let f={Id:count++,FileName:file.name, MimeType:file.type, Size:file.size, FilePath:"", UserId:user.id.toString(),Cost:10} as MusicFile;
-    //     dispatch(UploadFile(f))
-    //    // setMessage(`הקובץ "${file.name}" הועלה בהצלחה!`);
-    //     setFile(null);
-    // };
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -64,9 +51,12 @@ const Upload: React.FC = () => {
         reader.onload = async (event) => {
             if (event.target && event.target.result) {
                 const fileData = event.target.result as ArrayBuffer;
-                let f = {Id:count++,FileName:file.name, MimeType:file.type, Size:file.size, FilePath:"", UserId:user.id,Cost:10} as MusicFile;
+                let f = {id:count++,fileName:file.name, mimeType:file.type, size:file.size, filePath:"", userId:user.id,cost:10} as MusicFile;
                 dispatch(UploadFile({ file: fileData, metadata: f }));
                 dispatch(GetFiles());
+                dispatch(addCurrency({ userId:user.id, cost: 10 }));
+                
+
                 setFile(null);
             }
         };

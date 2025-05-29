@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { LoginUser, RegisterUser } from '../../services/userFetch';
-import { User } from '../../models/User';
+import { LoginUser } from '../../services/userFetch';
 import { TextField, Button, Box, Typography, Container, Paper } from '@mui/material';
 
 const Login = () => {

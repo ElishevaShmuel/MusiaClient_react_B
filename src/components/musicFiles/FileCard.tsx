@@ -1,25 +1,33 @@
 import { useState, useRef } from 'react';
 import { Card, CardContent, Typography, IconButton, Box } from '@mui/material';
-import { PlayArrow, Pause, Download } from '@mui/icons-material';
+import { PlayArrow, Download } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { MusicFile } from '../../models/MusicFile';
 import { User } from '../../models/User';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import { DownloadFile } from '../../services/FilesFetch';
+import {  subtractCurrency } from '../../services/fetchCurrency';
 
 const FileCard = ({ song, user }: { song: MusicFile, IsMine: boolean, user: User }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  const currency = useSelector((state: any) => state.currency);
+
 
   const play = async () => {
     if (!audioRef.current) {
       try {
+        console.log("Attempting to play song:", song.fileName);
+        
         const res = await fetch(`https://localhost:7264/api/AudioFile/Download?fileName=${song.fileName}`);
+        console.log("Response from server:", res);
+        
         const data = await res.json();
         const url = data.url;
+        console.log("Audio URL:", url);
         audioRef.current = new Audio(url);
         audioRef.current.addEventListener('ended', () => setIsPlaying(false));
       } catch (err) {
@@ -37,12 +45,12 @@ const FileCard = ({ song, user }: { song: MusicFile, IsMine: boolean, user: User
     setIsPlaying(!isPlaying);
   };
 
-  const Down = () => {
-    if ((user.currency?.sum ?? 0) < song.Cost) {
+  const Down = async () => {
+    if ((currency?.sum ?? 0) < song.cost) {
       alert("יקר מידי! שטף אותנו בתוכן ותחזור 😉");
     } else {
       dispatch(DownloadFile(song));
-
+      await dispatch(subtractCurrency({ userId: user.id, cost: 10 }));
     }
   };
   
