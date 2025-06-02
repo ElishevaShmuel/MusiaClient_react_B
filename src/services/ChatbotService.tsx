@@ -50,7 +50,10 @@ export class  ChatbotService{
       return response.data.message
 
     } catch (error) {
+      console.log("Error calling server API:", error);
+
       throw new Error("Server API call failed")
+      
     }
   }
 
