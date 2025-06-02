@@ -9,6 +9,7 @@ const myUrl = import.meta.env.VITE_SERVERURL
 
 export const RegisterUser = createAsyncThunk('user/register', async (user: Partial<User>, thunkAPI) => {
     try {
+
         const response = await axios.post(`${myUrl}/api/user/register`, user)
         console.log("register");
         console.log(response.data);
@@ -19,6 +20,7 @@ export const RegisterUser = createAsyncThunk('user/register', async (user: Parti
         return response.data;
     } catch (e) {
         console.log("errorRegister");
+        console.error(e);
         alert("הרשמה נכשלה");
         return thunkAPI.rejectWithValue(e);
     }
