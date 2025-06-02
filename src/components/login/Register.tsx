@@ -140,7 +140,7 @@ const Register = () => {
                 id="role"
                 name="role"
                 value={formData.role}
-                onChange={()=>handleChange}
+                onChange={(e) => handleChange(e as React.ChangeEvent<{ name?: string; value: unknown }>)}
                 sx={{
                   color: 'white',
                   '& .MuiOutlinedInput-notchedOutline': {
@@ -154,6 +154,7 @@ const Register = () => {
                   },
                 }}
                 inputProps={{
+                  
                   style: { color: 'white' },
                 }}
               >
