@@ -16,13 +16,14 @@ const FileCard = ({ song, user }: { song: MusicFile, IsMine: boolean, user: User
 
   const currency = useSelector((state: any) => state.currency);
 
+  const MyApi= import.meta.env.VITE_SERVERURL;
 
   const play = async () => {
     if (!audioRef.current) {
       try {
         console.log("Attempting to play song:", song.fileName);
         
-        const res = await fetch(`https://localhost:7264/api/AudioFile/Download?fileName=${song.fileName}`);
+        const res = await fetch(`${MyApi}/api/AudioFile/Download?fileName=${song.fileName}`);
         console.log("Response from server:", res);
         
         const data = await res.json();
