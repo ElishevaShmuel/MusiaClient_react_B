@@ -71,7 +71,7 @@ const NavBar = () => {
             </ButtonBase>
 
             <ButtonBase
-              onClick={() => window.location.href = 'https://muisicngclient-c.onrender.com/users'}
+              onClick={() => window.location.href = 'https://muisicngclient-c.onrender.com'}
               sx={{
                 color: "white",
                 fontWeight: "bold",
