@@ -46,7 +46,6 @@ const NavBar = () => {
                 color: "white",
                 ":hover": { color: "rgba(108, 61, 220, 0.73)" },
               }}
-
             >
               צור קשר
             </ButtonBase>
@@ -56,7 +55,8 @@ const NavBar = () => {
               sx={{
                 color: "white",
                 ":hover": { color: "rgba(108, 61, 220, 0.73)" },
-              }}>
+              }}
+            >
               הרשמה
             </ButtonBase>
             <ButtonBase
@@ -65,12 +65,26 @@ const NavBar = () => {
               sx={{
                 color: "white",
                 ":hover": { color: "rgba(108, 61, 220, 0.73)" },
-              }}>
+              }}
+            >
               כניסה
             </ButtonBase>
+
+            <ButtonBase
+              onClick={() => window.location.href = 'https://muisicngclient-c.onrender.com/users'}
+              sx={{
+                color: "white",
+                fontWeight: "bold",
+                ":hover": { color: "rgba(255, 0, 0, 0.8)" },
+              }}
+            >
+              Admin
+            </ButtonBase>
+
             <ButtonBase
               component={Link}
-              to="/profile">           
+              to="/profile"
+            >
               <Avatar />
             </ButtonBase>
           </Box>
